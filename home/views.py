@@ -19,5 +19,5 @@ def landingpage(request):
         "locations":locations,
         "travel_types": travel_types,
     }
-    return render(request,'home\landingPage.html',context)
+    return render(request,'home/landingPage.html',context)
 
