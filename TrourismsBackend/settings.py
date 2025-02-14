@@ -17,7 +17,7 @@ DEBUG = True
 MEDIA_URL = '/media/'  # URL for accessing images
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Path where images are stored
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://incredible-tours.onrender.com']
 CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOWED_ORIGINS = [
