@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incredible Tours</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-2">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-md border-b border-gray-300 p-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold text-gray-700">Incredible Tours</h1>
+            <ul class="flex space-x-6">
+                <li><a href="#" class="text-gray-600 hover:text-orange-500">Home</a></li>
+                <li><a href="#" class="text-gray-600 hover:text-orange-500">Destinations</a></li>
+                <li><a href="#" class="text-gray-600 hover:text-orange-500">About</a></li>
+                <li><a href="#" class="text-gray-600 hover:text-orange-500">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+    <h1 id="searchkeyword" class="text-center text-xl font-semibold text-gray-700 my-4"></h1>
+
+    <!-- Search Form -->
+    <form class="max-w-md mx-auto" id="searchForm">
+        <div class="relative flex items-center">
+            <button type="button" id="filterBtn" class="text-gray-700 bg-white border border-gray-300 p-2 rounded-lg hover:bg-gray-200">
+                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h18M6 8h12M9 12h6M12 16h3"/>
+                </svg>
+            </button>
+            <div class="absolute inset-y-0 left-2 flex items-center pl-12 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                </svg>
+            </div>
+            <input type="search" id="search-input" name="search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Search Tours..." required>
+            <button type="submit" class="text-white bg-orange-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 ml-2">Search</button>
+            <button type="button" id="clearFilters" class="text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 ml-2">Clear</button>
+        </div>
+    </form>
+
+    <div id="filterModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-80">
+            <h2 class="text-lg font-semibold mb-4">Filter Tours</h2>
+
+            <label class="block text-sm font-medium text-gray-700">Max Price:</label>
+            <input type="number" id="priceFilter" class="block w-full p-2 border rounded mb-3" placeholder="Enter max price">
+
+            <label class="block text-sm font-medium text-gray-700">Max Duration (Days):</label>
+            <input type="number" id="durationFilter" class="block w-full p-2 border rounded mb-3" placeholder="Enter max days">
+
+            <label class="block text-sm font-medium text-gray-700">Location:</label>
+            <input type="text" id="locationFilter" class="block w-full p-2 border rounded mb-3" placeholder="Enter location">
+
+            <div class="flex justify-between mt-4">
+                <button id="applyFilters" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600">Apply</button>
+                <button id="closeModal" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Close</button>
+            </div>
+        </div>
+    </div>
+    <!-- Tour Cards -->
+    <div id="tour-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 p-6">
+        {% for tour in page_obj %}
+        <div class="tour-card bg-white rounded-lg shadow-md overflow-hidden"
+            data-name="{{ tour.name|lower }}"
+            data-price="{{ tour.price }}"
+            data-duration="{{ tour.duration }}"
+            data-location="{{ tour.location|lower }}">
+                <img src="{{ tour.image }}" alt="{{ tour.name }}" class="w-full h-48 object-cover">
+                <div class="p-5">
+                    <h3 class="text-xl font-bold">{{ tour.name }}</h3>
+                    <p class="text-gray-600 text-sm mt-2">{{ tour.description }}</p>
+                    <div class="flex justify-between items-center mt-4">
+                        <span class="text-lg font-bold text-blue-600">₹ {{ tour.price }}</span>
+                        <span class="text-sm text-gray-500">{{ tour.duration }} Days</span>
+                    </div>
+                    <p class="text-gray-500 text-sm mt-2">📍 {{ tour.location }}</p>
+                    <a href="#" class="block text-center mt-4 bg-orange-500 text-white py-2 rounded hover:bg-blue-700 transition">View Details</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+     <!-- Pagination Controls -->
+     <div class="flex justify-center mt-6 space-x-2">
+        {% if page_obj.has_previous %}
+            <a href="?page=1" class="px-4 py-2 bg-gray-300 rounded">First</a>
+            <a href="?page={{ page_obj.previous_page_number }}" class="px-4 py-2 bg-gray-300 rounded">Previous</a>
+        {% endif %}
+
+        <span class="px-4 py-2 bg-orange-500 text-white rounded">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="px-4 py-2 bg-gray-300 rounded">Next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="px-4 py-2 bg-gray-300 rounded">Last</a>
+        {% endif %}
+    </div>
+
+  
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    const modal = document.getElementById("filterModal");
+    const filterBtn = document.getElementById("filterBtn");
+    const closeModal = document.getElementById("closeModal");
+    const applyFilters = document.getElementById("applyFilters");
+
+    // Show and Hide Modal
+    filterBtn.addEventListener("click", () => modal.classList.remove("hidden"));
+    closeModal.addEventListener("click", () => modal.classList.add("hidden"));
+
+    applyFilters.addEventListener("click", function () {
+        const maxPrice = parseFloat(document.getElementById("priceFilter").value) || Infinity;
+        const maxDuration = parseFloat(document.getElementById("durationFilter").value) || Infinity;
+        const location = document.getElementById("locationFilter").value.toLowerCase().trim();
+
+        document.querySelectorAll(".tour-card").forEach(tour => {
+            const tourPrice = parseFloat(tour.getAttribute("data-price")) || 0;
+            const tourDuration = parseFloat(tour.getAttribute("data-duration")) || 0;
+            const tourLocation = tour.getAttribute("data-location") ? tour.getAttribute("data-location").toLowerCase() : "";
+
+            const matchesPrice = tourPrice <= maxPrice;
+            const matchesDuration = tourDuration <= maxDuration;
+            const matchesLocation = !location || tourLocation.includes(location);
+
+            tour.style.display = (matchesPrice && matchesDuration && matchesLocation) ? "block" : "none";
+        });
+
+        modal.classList.add("hidden");
+    });
+
+    // Search functionality
+    const searchForm = document.getElementById("searchForm");
+    searchForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        const searchInput = document.getElementById("search-input").value.toLowerCase().trim();
+
+        if (searchInput) {
+            document.getElementById("searchkeyword").innerText = `Showing results for: ${searchInput}`;
+            document.querySelectorAll(".tour-card").forEach(tour => {
+                const tourName = tour.getAttribute("data-name").toLowerCase();
+                tour.style.display = tourName.includes(searchInput) ? "block" : "none";
+            });
+        }
+    });
+
+    // Clear filters
+    document.getElementById("clearFilters").addEventListener("click", function () {
+        window.location.href = window.location.pathname;
+    });
+});
+
+    </script>
+
+</body>
+</html>
