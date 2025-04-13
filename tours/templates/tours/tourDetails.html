@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ tour.category }} : {{ tour.name }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50">
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full bg-white/90 backdrop-blur-sm shadow-sm z-50">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="text-2xl font-bold text-blue-600">Incredible Tours</div>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-6">
+                <a href="#" class="hover:text-blue-600 transition-colors">Home</a>
+                <a href="/tours/tours/" class="hover:text-blue-600 transition-colors">Tours</a>
+                <a href="#" class="hover:text-blue-600 transition-colors">About</a>
+                <a href="#" class="hover:text-blue-600 transition-colors">Contact</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-gray-600 focus:outline-none" id="menu-toggle">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="hidden flex-col items-center bg-white shadow-md py-4 space-y-2 w-full" id="mobile-menu">
+            <a href="#" class="block py-2 px-4 hover:bg-gray-200 w-full text-center">Home</a>
+            <a href="/tours/tours/" class="block py-2 px-4 hover:bg-gray-200 w-full text-center">Tours</a>
+            <a href="#" class="block py-2 px-4 hover:bg-gray-200 w-full text-center">About</a>
+            <a href="#" class="block py-2 px-4 hover:bg-gray-200 w-full text-center">Contact</a>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="pt-20 md:pt-24 pb-12 bg-gradient-to-r from-blue-50 to-indigo-50 text-center px-4">
+        <h1 class="text-2xl sm:text-3xl md:text-5xl font-bold text-gray-800 mb-4" data-aos="fade-up">
+            {{ tour.name }}
+        </h1>
+        <p class="text-gray-600 text-sm sm:text-base" data-aos="fade-up" data-aos-delay="100">
+            <strong>{{ tour.category }} : {{ tour.name }}</strong>
+        </p>
+    </section>
+<!-- Main Content -->
+<main class="container mx-auto px-4 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+        
+        <!-- Tour Images Section -->
+        <div class="space-y-6" data-aos="fade-right">
+            <div class="relative overflow-hidden rounded-lg shadow-lg">
+                <img src="{{ tour.image }}" alt="Tour Image" 
+                        class="w-full h-64 object-cover rounded-lg transition-transform duration-300 hover:scale-105">
+                <span class="absolute top-3 left-3 bg-blue-600 text-white text-xs uppercase font-bold px-3 py-1 rounded-md shadow-md">
+                    {{ tour.category }}
+                </span>
+            </div>
+
+            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-3 gap-2">
+                {% for tour_image in tour_images %}
+                <img src="{{ tour_image.image }}" alt="Tour View" 
+                    class="w-full h-24 sm:h-28 md:h-32 lg:h-36 object-cover rounded-md shadow-md cursor-pointer hover:opacity-75 transition">
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Tour Details -->
+        <div class="space-y-6" data-aos="fade-left">
+            <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">✨ {{ tour.name }}</h2>
+            <p class="text-gray-600 text-sm sm:text-lg leading-relaxed">{{ tour.description|safe }}</p>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-white p-4 rounded-lg shadow-md text-center">
+                    <span class="block text-gray-500 text-xs sm:text-sm">📍 Location</span>
+                    <span class="block text-base sm:text-lg md:text-xl font-bold text-gray-800">{{ tour.location }}</span>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-md text-center">
+                    <span class="block text-gray-500 text-xs sm:text-sm">⏳ Duration</span>
+                    <span class="block text-base sm:text-lg md:text-xl font-bold text-gray-800">{{ tour.duration }} days</span>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
+                <span class="text-yellow-500 text-lg font-bold">⭐ {{ tour.rating|default:"4.5" }}/5</span>
+                <a href="#" 
+                   class="px-6 py-3 bg-orange-500 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition-transform duration-300 transform hover:scale-105">
+                    🚀 Book Now
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+<section class="bg-gray-100 py-12">
+    <div class="container mx-auto px-4">
+        <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-8 text-gray-800" data-aos="fade-up">
+            ✨ Similar Adventures
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6" data-aos="fade-up" data-aos-delay="100">
+            {% for related_tour in related_tours %}
+            <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
+                <img src="{{ related_tour.image }}" alt="Related Tour" 
+                        class="w-full h-48 object-cover">
+                <div class="p-5">
+                    <h3 class="font-bold text-lg sm:text-xl text-gray-900">
+                        {{ related_tour.name }}
+                    </h3>
+                    <p class="text-gray-600 text-sm">
+                        📍 <strong>{{ related_tour.location }}</strong> | ⏳ <strong>{{ related_tour.duration }} days</strong>
+                    </p>
+                    <a href="{% url 'tour_details' related_tour.id %}" 
+                       class="block text-center mt-2 bg-orange-500 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition duration-300 transform hover:scale-105">
+                        View Details
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+    
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+        document.getElementById("menu-toggle").addEventListener("click", function () {
+            const menu = document.getElementById("mobile-menu");
+            menu.classList.toggle("hidden");
+            menu.classList.toggle("flex");
+        });
+    </script>
+</body>
+</html>

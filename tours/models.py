@@ -1,5 +1,5 @@
 from django.db import models
-
+from home.models import CityOrState
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
@@ -16,7 +16,7 @@ class Tour(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     available_slots = models.PositiveIntegerField(default=10)
-    
+    city_or_state = models.ForeignKey(CityOrState, on_delete=models.CASCADE, related_name="tours")  # Linking to City/State
     image = models.ImageField(upload_to='tours/', null=True, blank=True)  # Main image
     additional_images = models.ManyToManyField('TourImage', blank=True, related_name="tour_images")
 

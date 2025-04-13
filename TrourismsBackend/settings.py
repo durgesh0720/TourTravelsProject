@@ -27,6 +27,7 @@ CORS_ALLOWED_ORIGINS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,6 +42,27 @@ INSTALLED_APPS = [
     'django_extensions',
     'corsheaders',
 ]
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Incredible Tours",
+    "site_header": "Incredible Tours",
+    "welcome_sign": "My Dashboard",
+    
+    # "site_logo": "images/custom_logo.png",  # Path inside the static folder
+
+    # Set Background & Other Styles
+    # "login_logo": "images/custom_logo.png",  # Logo for login page
+    # "login_logo_dark": "images/custom_logo.png",  # Dark mode logo
+    "site_brand": "Tour and travel",  # Text beside logo
+    
+    # Other customizations
+    "show_sidebar": True,
+    "navigation_expanded": True,
+}
+JAZZMIN_UI_TWEAKS = {
+    "theme": "darkly",
+}
+
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',

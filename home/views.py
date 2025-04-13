@@ -1,12 +1,13 @@
-from django.shortcuts import render
-from tours.models import Tour
+from django.shortcuts import render,get_object_or_404
+from tours.models import Tour,TourImage
 from django.core.paginator import Paginator
+from .models import CityOrState,Article
 
 def landingpage(request):
     locations = Tour.objects.values_list('location', flat=True).distinct()
     travel_types = Tour.objects.values_list('category__name', flat=True).distinct()  # Fetching unique travel categories
 
-    tours = Tour.objects.all()  # Fetch all tours
+    tours = Tour.objects.all().order_by("?")  # Fetch all tours
     page_number = request.GET.get("page", 1)  # Get the current page from the request
     paginator = Paginator(tours, 9) 
     try:
@@ -20,4 +21,17 @@ def landingpage(request):
         "travel_types": travel_types,
     }
     return render(request,'home/landingPage.html',context)
+
+def Destinations(request,cityName):
+    city_obj = get_object_or_404(CityOrState, name=cityName)
+    tours_obj = Tour.objects.filter(city_or_state=city_obj).order_by("?")[:9]
+    city_articles = Article.objects.filter(city_or_state=city_obj)
+    tour_images = TourImage.objects.filter(tour = tours_obj.first())
+    context = {
+        "city": city_obj,
+        "tours": tours_obj,
+        "articles": city_articles,
+        "tour_images":tour_images
+    }
+    return render(request, "home/Destinations.html", context)
 
