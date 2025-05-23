@@ -15,10 +15,10 @@
                 <img src="https://images.unsplash.com/photo-1546768292-fb12f6c92568" alt="Logo" class="h-8 w-auto">
             </a> -->
             <div class="hidden md:flex space-x-6">
-                <a href="/" class="text-white hover:text-orange-500">Home</a>
+                <a href="{% url 'landingpage' %}" class="text-white hover:text-orange-500">Home</a>
                 <a href="#" class="text-white hover:text-orange-500">Tours</a>
                 <a href="#" class="text-white hover:text-orange-500">Destinations</a>
-                <a href="#" class="text-white hover:text-orange-500">Contact</a>
+                <a href="{% url 'contact' %}" class="text-white hover:text-orange-500">Contact</a>
             </div>
             <button id="menu-toggle" class="md:hidden text-white text-2xl">
                 <i class="fas fa-bars"></i>
@@ -28,7 +28,7 @@
             <a href="/" class="text-white hover:text-orange-500">Home</a>
             <a href="#" class="text-white hover:text-orange-500">Tours</a>
             <a href="#" class="text-white hover:text-orange-500">Destinations</a>
-            <a href="#" class="text-white hover:text-orange-500">Contact</a>
+            <a href="{% url 'contact' %}" class="text-white hover:text-orange-500">Contact</a>
         </div>
     </nav>
     
@@ -216,7 +216,7 @@
             let index = 0;
     
             function changeSlide() {
-                index = (index + 1) % slides.length;
+                index = (index + 2) % slides.length;
                 slider.style.transform = `translateX(-${index * 100}%)`;
             }
     

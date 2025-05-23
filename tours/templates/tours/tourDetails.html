@@ -15,10 +15,10 @@
             
             <!-- Desktop Menu -->
             <div class="hidden md:flex space-x-6">
-                <a href="#" class="hover:text-blue-600 transition-colors">Home</a>
+                <a href="/" class="hover:text-blue-600 transition-colors">Home</a>
                 <a href="/tours/tours/" class="hover:text-blue-600 transition-colors">Tours</a>
                 <a href="#" class="hover:text-blue-600 transition-colors">About</a>
-                <a href="#" class="hover:text-blue-600 transition-colors">Contact</a>
+                <a href="{% url 'contact' %}" class="hover:text-blue-600 transition-colors">Contact</a>
             </div>
 
             <!-- Mobile Menu Button -->
@@ -34,7 +34,7 @@
             <a href="#" class="block py-2 px-4 hover:bg-gray-200 w-full text-center">Home</a>
             <a href="/tours/tours/" class="block py-2 px-4 hover:bg-gray-200 w-full text-center">Tours</a>
             <a href="#" class="block py-2 px-4 hover:bg-gray-200 w-full text-center">About</a>
-            <a href="#" class="block py-2 px-4 hover:bg-gray-200 w-full text-center">Contact</a>
+            <a href="{% url 'contact' %}" class="block py-2 px-4 hover:bg-gray-200 w-full text-center">Contact</a>
         </div>
     </nav>
     

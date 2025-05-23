@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Incredible Tours</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lazysizes@5.3.2/lazysizes.min.js"></script> <!-- Lazyload script -->
     <style>
         
         #backgroundVideo {
@@ -94,7 +95,7 @@
         <div class="flex justify-between items-center h-16">
             <!-- Logo -->
             <div class="flex items-center">
-                <a href="#" class="text-2xl font-bold text-white">Incredible Tours</a>
+                <a href="{% url 'landingpage' %}" class="text-2xl font-bold text-white">Incredible Tours</a>
             </div>
             
             <!-- Desktop Menu -->
@@ -109,10 +110,29 @@
                         </svg>
                     </button>
                     <!-- Dropdown Menu -->
-                    <div class="absolute left-0 mt-2 w-40 bg-white text-gray-900 shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-                        <a href="{% url 'destination' cityName='Rajasthan' %}" class="block px-4 py-2 hover:bg-gray-200">Rajasthan</a>
-                        <a href="{% url 'destination' cityName='Kerala' %}" class="block px-4 py-2 hover:bg-gray-200">Kerala</a>
-                        <a href="{% url 'destination' cityName='Goa' %}" class="block px-4 py-2 hover:bg-gray-200">Goa</a>
+                    <div class="absolute left-0 mt-2 w-96 bg-white/95 backdrop-blur-sm text-gray-900 shadow-xl rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+                        <div class="p-3 border-b border-gray-100">
+                            <h3 class="font-bold text-gray-800">Popular Destinations</h3>
+                            <p class="text-xs text-gray-500">Discover incredible places across India</p>
+                        </div>
+                        <div class="grid grid-cols-3 gap-1 p-2">
+                            {% for city in Cities %}
+                            <a href="{% url 'destination' cityName=city.name %}" class="flex items-center p-2 rounded-md hover:bg-orange-50 transition-colors group">
+                                <span class="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center mr-2">
+                                    <span class="text-orange-500 text-xs font-bold">{{ city.name|slice:":1"|upper }}</span>
+                                </span>
+                                <div>
+                                    <span class="block font-medium text-gray-800 group-hover:text-orange-500">{{ city.name }}</span>
+                                    <span class="text-xs text-gray-500">Explore amazing tours</span>
+                                </div>
+                            </a>
+                            {% endfor %}
+                        </div>
+                        <div class="p-2 bg-gray-50 rounded-b-lg border-t border-gray-100">
+                            <a href="{% url 'tours' %}" class="block text-center text-sm text-orange-500 hover:text-orange-600 font-medium">
+                                View all destinations →
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <!-- Packages Dropdown -->
@@ -131,7 +151,7 @@
                     </div>
                 </div>
 
-                <a href="#footeR" class="hover:text-orange-400 transition">Contact</a>
+                <a href="{% url 'contact' %}" class="hover:text-orange-400 transition">Contact</a>
             </div>
 
             <!-- Mobile Menu Button -->
@@ -248,24 +268,24 @@
     <footer id="footeR" class="bg-gray-900 text-white py-12 px-4">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-                <h3 class="text-xl font-bold mb-4">TravelIndia</h3>
+                <h3 class="text-xl font-bold mb-4">Incredible Tours</h3>
                 <p class="text-gray-400">Your gateway to incredible Indian experiences</p>
             </div>
             <div>
                 <h4 class="font-bold mb-4">Quick Links</h4>
                 <ul class="space-y-2 text-gray-400">
                     <li><a href="#" class="hover:text-white">About Us</a></li>
-                    <li><a href="#" class="hover:text-white">Destinations</a></li>
+                    <li><a href="{% url 'tours' %}" class="hover:text-white">Tours</a></li>
                     <li><a href="#" class="hover:text-white">Packages</a></li>
-                    <li><a href="#" class="hover:text-white">Contact</a></li>
+                    <li><a href="{% url 'contact' %}" class="hover:text-white">Contact</a></li>
                 </ul>
             </div>
             <div>
                 <h4 class="font-bold mb-4">Contact Info</h4>
                 <ul class="space-y-2 text-gray-400">
-                    <li>contact@travelindia.com</li>
-                    <li>+91 123 456 7890</li>
-                    <li>New Delhi, India</li>
+                    <li>contact@incredibletours.com</li>
+                    <li>+91 9129412918</li>
+                    <li>Meerut, Uttar Pradesh</li>
                 </ul>
             </div>
             <div>

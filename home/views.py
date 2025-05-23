@@ -6,6 +6,7 @@ from .models import CityOrState,Article
 def landingpage(request):
     locations = Tour.objects.values_list('location', flat=True).distinct()
     travel_types = Tour.objects.values_list('category__name', flat=True).distinct()  # Fetching unique travel categories
+    Cities = CityOrState.objects.all()
 
     tours = Tour.objects.all().order_by("?")  # Fetch all tours
     page_number = request.GET.get("page", 1)  # Get the current page from the request
@@ -19,6 +20,7 @@ def landingpage(request):
         "page_obj": page_obj,
         "locations":locations,
         "travel_types": travel_types,
+        "Cities":Cities,
     }
     return render(request,'home/landingPage.html',context)
 
@@ -35,3 +37,6 @@ def Destinations(request,cityName):
     }
     return render(request, "home/Destinations.html", context)
 
+def contact(request):
+    cities = CityOrState.objects.all()
+    return render(request, "home/contact.html", {"cities": cities})
